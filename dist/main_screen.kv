@@ -1,0 +1,338 @@
+<TooltipMDIconButtonMain@MDIconButton+MDTooltip>
+<TooltipSliderMain@MDSlider+MDTooltip>
+
+<PasswordTextFieldM>:
+    size_hint_y: None
+    height: text_field.height
+
+    CredInputP:
+        id: text_field
+        size_hint_x: 1
+        hint_text: root.hint_text
+        mode: 'rectangle'
+        multiline: False
+        allow_copy: False
+        write_tab: False
+        text: root.text
+        password: True
+        password_mask: "•"
+        font_size: 18
+
+    MDIconButton:
+        icon: "eye-off"
+        theme_icon_color: "Custom"
+        icon_color: app.theme_cls.disabled_hint_text_color
+        pos_hint: {"center_y": .435}
+        pos: text_field.width - self.width, 0
+        theme_text_color: "Hint"
+        on_release:
+            self.icon = "eye" if self.icon == "eye-off" else "eye-off"
+            self.icon_color = app.theme_cls.primary_color if self.icon == "eye" else app.theme_cls.disabled_hint_text_color
+            text_field.password = False if text_field.password is True else True
+
+<PasswordButton>
+    size_hint_y: None
+    height: root.height_p
+
+    MDRectangleFlatButton:
+        id: pwButton
+        size_hint: 1, 1
+        text: root.text
+        font_size: 16
+        ripple_alpha: .25
+        ripple_color: app.theme_cls.primary_color
+        on_release: root.parent.parent.parent.parent.parent.parent.parent.parent.show_password(self.text)
+
+    MDIcon:
+        icon: root.icon
+        theme_text_color: "Custom"
+        size_hint: 1, 1
+        size_hint_max_x: 75
+        size_hint_max_y: 75
+        text_color: app.theme_cls.primary_color
+        pos_hint: {"left": .05, "center_y": .5}
+        pos: 25 - self.width + dp(8), 0
+
+<FilterButton>
+    size_hint: 1, 1
+
+    MDRectangleFlatButton:
+        id: filter_button
+        size_hint: 1, 1
+        text: root.text
+        text_color: app.theme_cls.bg_normal
+        font_size: 18
+        md_bg_color: app.theme_cls.primary_color
+        on_release: root.parent.parent.parent.parent.parent.parent.menu_filter.open()
+
+    MDIcon:
+        icon: root.icon
+        theme_text_color: "Custom"
+        size_hint: 1, 1
+        size_hint_max_x: 75
+        size_hint_max_y: 75
+        font_size: 30
+        text_color: app.theme_cls.bg_normal
+        pos_hint: {"right": 0.95, "center_y": .5}
+        pos: 25, 0
+
+<MainScreen>
+    MDGridLayout:
+        cols: 1
+        size: root.width, root.height
+
+        MDGridLayout:
+            cols: 3
+
+            MDBoxLayout:
+                size_hint: 0.381967, 1
+                size_hint_min_x: 300
+                size_hint_max_x: 500
+
+                MDGridLayout:
+                    rows: 5
+
+                    MDBoxLayout:
+                        size_hint: 1, 0.2
+                        size_hint_min_y: 60
+                        size_hint_max_y: 80
+
+                        MDGridLayout:
+                            cols: 3
+                            size_hint: 1, 1
+                            size_hint_max_y: 75
+                            padding: 15
+                            spacing: 10
+
+                            MDFloatingActionButton:
+                                icon: 'account'
+                                theme_icon_color: 'Custom'
+                                icon_color: app.theme_cls.bg_normal
+                                size_hint: 1, 1
+                                size_hint_max_x: self.size[1]
+                                size_hint_min_x: self.size[1]
+                                on_release:
+                                    root.goto_screen('account', 'down')
+
+                            MDFlatButton:
+                                id: account_button_long
+                                text: "Account"
+                                size_hint: 1, 1
+                                font_size: self.size[1] * 0.35
+                                halign: 'left'
+                                ripple_scale: 0
+                                on_release:
+                                    root.goto_screen('account', 'down')
+
+                            TooltipMDIconButtonMain:
+                                icon: 'logout'
+                                tooltip_text: "Log out"
+                                tooltip_bg_color: app.theme_cls.bg_dark
+                                tooltip_text_color: 1, 1, 1, 0.8
+                                theme_icon_color: 'Custom'
+                                icon_color: app.theme_cls.primary_color
+                                on_release:
+                                    root.log_out()
+
+                    MDBoxLayout:
+                        size_hint: 1, None
+                        height: 2
+                        padding: 0, 0, -10, 0
+
+                        MDBoxLayout:
+                            size_hint: 1, None
+                            height: 2
+                            md_bg_color: app.theme_cls.bg_dark
+
+                    MDBoxLayout:
+                        size_hint: 1, 0.2
+                        size_hint_min_y: 40
+                        size_hint_max_y: 50
+                        padding: 10, 10, 0, 0
+
+                        FilterButton:
+                            id: filter_container
+                            size_hint: 1, 1
+                            text: "Filter"
+                            icon: 'chevron-down'
+
+                    MDBoxLayout:
+                        size_hint: 1, None
+                        height: 2
+                        padding: 10, 0, 10, 0
+
+                        MDBoxLayout:
+                            size_hint: 1, None
+                            height: 2
+                            md_bg_color: app.theme_cls.bg_dark
+
+                    MDBoxLayout:
+                        size_hint: 1, 1
+                        padding: 0, 10, 0, 15
+
+                        FadeScrollView:
+                            id: scroll
+                            fade_height: self.height / 10
+                            fade_color: app.theme_cls.bg_normal
+                            edge_top: False
+                            do_scroll_x: False
+                            do_scroll_y: True
+                            smooth_scroll_end: 12
+                            scroll_type: ['content', 'bars']
+                            bar_width: 10
+                            bar_color: 1, 1, 1, 0.15
+                            bar_inactive_color: 1, 1, 1, 0.05
+                            scroll_wheel_distance: 30
+
+                            MDGridLayout:
+                                id: scroll_container
+                                cols: 1
+                                size_hint_x: 1
+                                size_hint_y: None
+                                height: self.minimum_height
+                                padding: 10, 12, 20, 10
+                                spacing: 10
+
+            MDBoxLayout:
+                size_hint: None, 1
+                width: 2
+                padding: 10, 0, 0, 0
+
+                MDBoxLayout:
+                    size_hint: None, 1
+                    width: 2
+                    md_bg_color: app.theme_cls.bg_dark
+
+            MDGridLayout:
+                cols: 1
+                size_hint: 1, 1
+
+                MDGridLayout:
+                    cols: 1
+                    size_hint: 1, 0.25
+                    size_hint_max_y: 200
+
+                    MDLabel:
+                        text: "Save a new password"
+                        font_style: 'H3'
+                        halign: 'center'
+
+                MDAnchorLayout:
+                    size_hint: 1, 1
+                    anchor_x: 'center'
+                    anchor_y: 'center'
+
+                    MDBoxLayout:
+                        orientation: "vertical"
+                        padding: 20
+                        size_hint: 0.5, None
+                        height: self.minimum_height
+                        size_hint_max_x: 600
+                        pos_hint: {"center_x": .5, "center_y": .5}
+
+                        BoxLayout:
+                            orientation: 'vertical'
+                            size_hint: 1, None
+                            height: self.minimum_height
+                            spacing: dp(20)
+                            padding: dp(20)
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+                            MDTextField:
+                                id: title_text
+                                hint_text: "Title"
+                                mode: "rectangle"
+                                multiline: False
+                                allow_copy: False
+                                write_tab: False
+                                size_hint_x: 1
+                                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+                            MDTextField:
+                                id: username_text
+                                hint_text: "Username"
+                                mode: "rectangle"
+                                multiline: False
+                                allow_copy: False
+                                write_tab: False
+                                size_hint_x: 1
+                                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+                            PasswordTextFieldM:
+                                id: password_text
+                                hint_text: "Password"
+                                size_hint_x: 1
+                                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+                            MDBoxLayout:
+                                orientation: 'horizontal'
+                                size_hint: 1, None
+                                height: 40
+
+                                MDLabel:
+                                    id: slider_text
+                                    text: "1"
+                                    size_hint: None, 1
+                                    halign: 'left'
+                                    width: 140
+
+                                TooltipSliderMain:
+                                    id: enc_lvl_slider
+                                    tooltip_text: "Changes encryption brute force attack protection (Higher level = More secure)"
+                                    tooltip_bg_color: app.theme_cls.bg_dark
+                                    tooltip_text_color: 1, 1, 1, 0.8
+                                    track_color_disabled: app.theme_cls.bg_light
+                                    thumb_color_disabled:   app.theme_cls.bg_dark
+                                    padding: 0
+                                    min: 1
+                                    max: 10
+                                    step: 1
+                                    show_off: False
+                                    hint: False
+                                    pos_hint: {'center_y': 0.5}
+                                    on_touch_move: root.update_slider_text(self.value)
+
+                            MDBoxLayout:
+                                size_hint: 1, None
+                                height: 2
+
+                                MDBoxLayout:
+                                    size_hint: 1, None
+                                    height: 2
+                                    md_bg_color: app.theme_cls.bg_dark
+
+                            MDGridLayout:
+                                cols: 2
+                                size_hint: 1, 1
+                                size_hint_min_y: 35
+                                size_hint_max_y: 60
+                                spacing: 15
+                                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+                                MDRectangleFlatButton:
+                                    text: "Save"
+                                    size_hint: 0.5, 1
+                                    size_hint_max_x: 300
+                                    text_color: app.theme_cls.bg_normal
+                                    md_bg_color: app.theme_cls.primary_color
+                                    font_style: 'Subtitle2'
+                                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                                    on_release:
+                                        root.start_change_password(title_text.text)
+
+                                MDRectangleFlatButton:
+                                    text: "Delete"
+                                    size_hint: 0.5, 1
+                                    size_hint_max_x: 300
+                                    font_style: 'Subtitle2'
+                                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                                    on_release:
+                                        root.delete_password()
+
+    MDFloatingActionButtonSpeedDial:
+        id: dail
+        icon: 'menu'
+        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+        color_icon_stack_button: app.theme_cls.bg_normal
+        color_icon_root_button: app.theme_cls.bg_normal
+        root_button_anim: False

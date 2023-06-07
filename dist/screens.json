@@ -1,0 +1,37 @@
+{
+    "login": {
+        "import": "from login_screen import LoginScreen",
+        "object": "LoginScreen()",
+        "kv": "login_screen.kv"
+    },
+    "signup": {
+        "import": "from signup_screen import SignupScreen",
+        "object": "SignupScreen()",
+        "kv": "signup_screen.kv"
+    },
+    "main": {
+        "import": "from main_screen import MainScreen",
+        "object": "MainScreen()",
+        "kv": "main_screen.kv"
+    },
+    "newpassword": {
+        "import": "from newpass_screen import NewPassScreen",
+        "object": "NewPassScreen()",
+        "kv": "newpass_screen.kv"
+    },
+    "newfilter": {
+        "import": "from newfilter_screen import NewFilterScreen",
+        "object": "NewFilterScreen()",
+        "kv": "newfilter_screen.kv"
+    },
+    "account": {
+        "import": "from account_screen import AccountScreen",
+        "object": "AccountScreen()",
+        "kv": "account_screen.kv"
+    },
+    "settings": {
+        "import": "from settings_screen import SettingsScreen",
+        "object": "SettingsScreen()",
+        "kv": "settings_screen.kv"
+    }
+}
