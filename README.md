@@ -10,8 +10,8 @@ To install and use Key Keeper, please follow these steps:
 
 1. Clone or download the Key Keeper repository from [GitHub](https://github.com/RobertArnosson/keykeeper_exe) or download directly [Here](https://github.com/RobertArnosson/keykeeper_exe/archive/refs/heads/main.zip).
 2. Extract the downloaded ZIP file to a preferred location on your computer.
-3. Open the extracted folder and locate the `dist` folder.
-4. Inside the `dist` folder, you will find the `main.exe` file  *(NOT the `main.exe` in the `main` folder)*. Double-click on it to run the program.
+3. Open the extracted folder and locate the `keykeeper` folder.
+4. Inside the `keykeeper` folder, you will find the `keykeeper.exe` file. Double-click on it to run the program.
 
 *Note: Key Keeper is currently only supported for Windows 10+ operating systems, but might work on other systems like MacOS, Linux and Ubuntu.*
 
@@ -19,7 +19,7 @@ To install and use Key Keeper, please follow these steps:
 How to get to start using the Key Keeper app.
 
 ### How to create a new account 
-1. Double click the `main.exe` file in the `dist` folder *(NOT the `main.exe` in the `main` folder)*
+1. Double click the `keykeeper.exe` file in the `keykeeper` folder *(NOT the `keykeeper.exe` in the `main` folder)*
 2. When the program opens click the button in the bottom right to create a new account.
 3. Enter a name that recognizes you *Example: `Jack` or `JackAccount`*
 4. Enter a strong password that has lower and upper case letters, numbers and symbols. Recommended length is **14-16** characters! **Do NOT share this passord with anyone or save it in the app!**

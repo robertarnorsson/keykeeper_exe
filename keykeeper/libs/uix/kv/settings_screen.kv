@@ -1,0 +1,270 @@
+<TooltipSwitchSettings@MDSwitch+MDTooltip>
+<TooltipSliderSettings@MDSlider+MDTooltip>
+
+<FilterButton>
+    size_hint: 1, 1
+    size_hint_min_x: 200
+
+    MDRectangleFlatButton:
+        id: filter_button
+        size_hint: 1, 1
+        text: root.text
+        text_color: app.theme_cls.bg_normal
+        font_size: 18
+        md_bg_color: app.theme_cls.primary_color
+        on_release: root.parent.parent.parent.parent.parent.parent.menu_filter.open()
+
+    MDIcon:
+        icon: root.icon
+        theme_text_color: "Custom"
+        size_hint: 1, 1
+        size_hint_max_x: 75
+        size_hint_max_y: 75
+        font_size: 30
+        text_color: app.theme_cls.bg_normal
+        pos_hint: {"right": 0.95, "center_y": .5}
+        pos: 25, 0
+
+<SettingsScreen>
+    MDGridLayout:
+        cols: 1
+        size: root.width, root.height
+
+        MDBoxLayout:
+            orientation: 'vertical'
+            size_hint: 1, 0.2
+
+            MDLabel:
+                text: "Settings"
+                font_style: 'H2'
+                halign: 'center'
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+        ScrollView:
+            id: scroll_settings
+            do_scroll_x: False
+            do_scroll_y: True
+            smooth_scroll_end: 12
+            scroll_type: ['content', 'bars']
+            bar_width: 10
+            bar_color: 1, 1, 1, 0.15
+            bar_inactive_color: 1, 1, 1, 0.05
+            scroll_wheel_distance: 30
+
+            MDGridLayout:
+                id: scroll_container_settings
+                cols: 1
+                size_hint_x: 1
+                size_hint_y: None
+                height: self.minimum_height
+
+                MDBoxLayout:
+                    orientation: 'horizontal'
+                    size_hint: 1, None
+                    height: 75
+                    padding: 15, 15, 35, 15
+                    spacing: 30
+                    md_bg_color: app.theme_cls.bg_light
+
+                    MDIcon:
+                        id: theme_icon
+                        icon: 'theme-light-dark'
+                        size_hint: 1, 1
+                        size_hint_max_x: self.size[1]
+                        pos_hint: {'center_y': 0.5}
+
+                    MDLabel:
+                        text: "Change light/dark mode"
+                        size_hint: 1, 1
+                        pos_hint: {'center_y': 0.5}
+
+                    MDBoxLayout:
+                        orientation: 'horizontal'
+                        adaptive_width: True
+                        height: 40
+
+                        MDLabel:
+                            id: theme_switch_text
+                            text: "Dark theme"
+                            size_hint: None, 1
+                            halign: 'center'
+                            width: 150
+
+                        TooltipSwitchSettings:
+                            id: theme_switch
+                            tooltip_text: "App has to be restarted to fully apply theme changes!"
+                            tooltip_bg_color: app.theme_cls.bg_dark
+                            tooltip_text_color: app.theme_cls.opposite_bg_dark
+                            on_active: root.switch_theme(self, self.active, False)
+                            pos_hint: {'center_y': 0.5}
+
+                MDBoxLayout:
+                    size_hint: 1, None
+                    height: 2
+
+                    MDBoxLayout:
+                        size_hint: 1, None
+                        height: 2
+                        md_bg_color: app.theme_cls.bg_dark
+
+                MDBoxLayout:
+                    orientation: 'horizontal'
+                    size_hint: 1, None
+                    height: 75
+                    padding: 15, 15, 35, 15
+                    spacing: 30
+                    md_bg_color: app.theme_cls.bg_light
+
+                    MDIcon:
+                        id: primary_icon
+                        icon: 'palette'
+                        size_hint: 1, 1
+                        size_hint_max_x: self.size[1]
+                        pos_hint: {'center_y': 0.5}
+
+                    MDLabel:
+                        text: "Change the primary color"
+                        size_hint: 1, 1
+                        pos_hint: {'center_y': 0.5}
+
+                    MDBoxLayout:
+                        orientation: 'horizontal'
+                        adaptive_width: True
+                        height: 40
+
+                        FilterButton:
+                            id: filter_container
+                            size_hint: 1, 1
+                            text: "Color"
+                            icon: 'chevron-down'
+
+                MDBoxLayout:
+                    size_hint: 1, None
+                    height: 2
+
+                    MDBoxLayout:
+                        size_hint: 1, None
+                        height: 2
+                        md_bg_color: app.theme_cls.bg_dark
+
+                MDBoxLayout:
+                    orientation: 'horizontal'
+                    size_hint: 1, None
+                    height: 75
+                    padding: 15, 15, 35, 15
+                    spacing: 30
+                    md_bg_color: app.theme_cls.bg_light
+
+                    MDIcon:
+                        icon: 'key-chain-variant'
+                        size_hint: 1, 1
+                        size_hint_max_x: self.size[1]
+                        pos_hint: {'center_y': 0.5}
+
+                    MDLabel:
+                        text: "Change encryption security (Lower level = faster encryption + less security)"
+                        size_hint_y: 1
+                        pos_hint: {'center_y': 0.5}
+
+                    MDBoxLayout:
+                        orientation: 'horizontal'
+                        size_hint: 1, None
+                        size_hint_max_x: 500
+                        height: 40
+
+                        MDLabel:
+                            id: slider_text
+                            text: "1"
+                            size_hint: None, 1
+                            halign: 'center'
+                            width: 200
+
+                        TooltipSliderSettings:
+                            id: enc_lvl_slider
+                            tooltip_text: "Level 5 is the default"
+                            tooltip_bg_color: app.theme_cls.bg_dark
+                            tooltip_text_color: 1, 1, 1, 0.8
+                            padding: 0
+                            min: 1
+                            max: 10
+                            step: 1
+                            show_off: False
+                            hint: False
+                            pos_hint: {'center_y': 0.5}
+                            on_touch_move: root.change_encryption_level(False)
+
+                MDBoxLayout:
+                    size_hint: 1, None
+                    height: 2
+
+                    MDBoxLayout:
+                        size_hint: 1, None
+                        height: 2
+                        md_bg_color: app.theme_cls.bg_dark
+
+                MDBoxLayout:
+                    orientation: 'horizontal'
+                    size_hint: 1, None
+                    height: 75
+                    padding: 15, 15, 35, 15
+                    spacing: 30
+                    md_bg_color: app.theme_cls.bg_light
+
+                    MDIcon:
+                        id: logging_icon
+                        icon: 'note-text'
+                        size_hint: 1, 1
+                        size_hint_max_x: self.size[1]
+                        pos_hint: {'center_y': 0.5}
+
+                    MDLabel:
+                        text: "Enable or Disable logging"
+                        size_hint: 1, 1
+                        pos_hint: {'center_y': 0.5}
+
+                    MDBoxLayout:
+                        orientation: 'horizontal'
+                        adaptive_width: True
+                        height: 40
+
+                        MDLabel:
+                            id: logging_switch_text
+                            text: "Off"
+                            size_hint: None, 1
+                            halign: 'center'
+                            width: 75
+
+                        TooltipSwitchSettings:
+                            id: logging_switch
+                            tooltip_text: "Logging can be useful for debugging purposes"
+                            tooltip_bg_color: app.theme_cls.bg_dark
+                            tooltip_text_color: app.theme_cls.opposite_bg_dark
+                            pos_hint: {'center_y': 0.5}
+                            on_active: root.change_logging(self, self.active, False)
+
+    MDFloatLayout:
+        size_hint: 1, 1
+
+        MDAnchorLayout:
+            anchor_x: 'right'
+            anchor_y: 'bottom'
+            padding: 50
+
+            MDBoxLayout:
+                orientation: 'horizontal'
+                spacing: 30
+                adaptive_size: True
+
+                MDFloatingActionButton:
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    icon: 'content-save'
+                    icon_color: app.theme_cls.bg_normal
+                    elevation: 0
+                    on_release: root.apply_settings()
+
+                MDFloatingActionButton:
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    icon: 'arrow-right'
+                    icon_color: app.theme_cls.bg_normal
+                    elevation: 0
+                    on_release: root.check_changes()
