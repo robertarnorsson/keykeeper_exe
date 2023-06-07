@@ -15,6 +15,8 @@ To install and use Key Keeper, please follow these steps:
 
 *Note: Key Keeper is currently only supported for Windows 10+ operating systems, but might work on other systems like MacOS, Linux and Ubuntu.*
 
+*Important! Windows might say that it might be harmfull to run the `keykeeper.exe` file, but this is because it has no author yet. This will be fixed soon!*
+
 ## Usage
 How to get to start using the Key Keeper app.
 
