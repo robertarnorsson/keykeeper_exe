@@ -49,3 +49,12 @@ Now you have added a new password to your account.
 1. When logged in and at the main screen click the burger menu in the bottom right and then click the top butten called `New Filter`
 2. Click the filter dropdown button and select a filter that you want to be deleted
 3. Click the button called `Remove Filter` to remove the filter *Note: A removed filter can't be recovered and every passord in the filter that is removed will be deleted!*
+
+## Versions
+
+### v1.0.0
+- First release of the application!
+
+### v1.0.1
+- Removed keybind "`n`" for adding new user because it interfered when writing name or password
+- Edited file structure

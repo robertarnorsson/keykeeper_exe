@@ -30,8 +30,8 @@
         "kv": "libs/uix/kv/account_screen.kv"
     },
     "settings": {
-        "import": "from settings_screen import SettingsScreen",
+        "import": "from libs.uix.baseclass.settings_screen import SettingsScreen",
         "object": "SettingsScreen()",
-        "kv": "libs/uix/kv/settings_screen.kv"
+        "kv": "libs/settings_screen.kv"
     }
 }

@@ -22,14 +22,12 @@ class SettingsScreen(Screen):
         self.theme = 'Dark'
         self.primary = 'Red'
         self.lvl = 5
-        self.log_diabled = False
 
         self.need_restart = False
 
         self.old_theme = self.theme
         self.old_primary = self.primary
         self.old_lvl = self.lvl
-        self.old_log_diabled = self.log_diabled
 
         self.colors = {
             "red": get_color_from_hex(colors['Red']['500']),
@@ -109,12 +107,6 @@ class SettingsScreen(Screen):
         self.old_lvl = self.lvl
         self.ids['enc_lvl_slider'].value = self.lvl
         self.change_encryption_level(False)
-
-        self.log_diabled = get_settings('logger', 'disabled')
-        self.old_log_diabled = self.log_diabled
-        self.ids['logging_switch'].active = False if self.log_diabled else True
-        self.ids['logging_switch_text'].text = "Off" if self.log_diabled else "On"
-        self.ids['logging_icon'].icon = "note-off" if self.log_diabled else "note-text"
         return super().on_pre_enter(*args)
 
     def switch_theme(self, instance, value, revert):
@@ -147,31 +139,11 @@ class SettingsScreen(Screen):
             self.ids['slider_text'].text = f'Level: {self.lvl} (Good)'
         else:
             self.ids['slider_text'].text = f'Level: {self.lvl} (Super)'
-
-    def change_logging(self, instance, value, revert):
-        if revert:
-            if not self.log_diabled:
-                self.ids['logging_switch_text'].text = "On"
-                self.ids['logging_icon'].icon = 'note-text'
-            else:
-                self.ids['logging_switch_text'].text = "Off"
-                self.ids['logging_icon'].icon = 'note-off'
-        else:
-
-            if value:
-                self.log_diabled = False
-                self.ids['logging_switch_text'].text = "On"
-                self.ids['logging_icon'].icon = 'note-text'
-            else:
-                self.log_diabled = True
-                self.ids['logging_switch_text'].text = "Off"
-                self.ids['logging_icon'].icon = 'note-off'
     
     def revert_settings(self, *args):
         self.theme = self.old_theme
         self.primary = self.old_primary
         self.lvl = self.old_lvl
-        self.log_diabled = self.old_log_diabled
 
         self.change_encryption_level(True)
         self.close_dialog()
@@ -179,7 +151,6 @@ class SettingsScreen(Screen):
         
     def apply_settings(self):
         update_settings('encryption', 'level', self.lvl)
-        update_settings('logger', 'disabled', self.log_diabled)
 
         if self.need_restart:
             self.show_dialog("Needs Restart", "You have to restart the application\nClicking restart will close the application", [["Restart", self.close_application]])
@@ -188,7 +159,6 @@ class SettingsScreen(Screen):
             self.old_theme = self.theme
             self.old_primary = self.primary
             self.old_lvl = self.lvl
-            self.old_log_diabled = self.log_diabled
     
     def check_changes(self):
         if self.theme == self.old_theme and self.primary == self.old_primary and self.lvl == self.old_lvl and self.log_diabled == self.old_log_diabled:

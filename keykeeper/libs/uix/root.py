@@ -5,7 +5,7 @@ from kivy.lang import Builder
 from kivy.properties import ListProperty
 from kivy.uix.screenmanager import ScreenManager
 
-from utils import abs_path, logout
+from libs.applibs.utils import abs_path, logout
 
 class Root(ScreenManager):
 
@@ -16,7 +16,7 @@ class Root(ScreenManager):
         super().__init__()
         Window.bind(on_keyboard=self._handle_keyboard)
         # getting screens data from screens.json
-        with open(abs_path("screens.json")) as f:
+        with open(abs_path("libs/screens.json")) as f:
             self.screens_data = json.load(f)
 
     def set_current(self, screen_name, side="left", _from_goback=False):

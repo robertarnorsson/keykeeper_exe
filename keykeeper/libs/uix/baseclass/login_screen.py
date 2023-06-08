@@ -44,8 +44,6 @@ class LoginScreen(Screen):
         if self.manager.current == 'login':
             if key == 13:
                 self.start_check_login()
-            if key == 110:
-                self.goto_screen('signup', 'left')
                 
     def on_pre_enter(self, *args):
         self.parent.app.theme_cls.theme_style = "Dark"

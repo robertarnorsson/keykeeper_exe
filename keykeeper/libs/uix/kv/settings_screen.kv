@@ -193,55 +193,6 @@
                             pos_hint: {'center_y': 0.5}
                             on_touch_move: root.change_encryption_level(False)
 
-                MDBoxLayout:
-                    size_hint: 1, None
-                    height: 2
-
-                    MDBoxLayout:
-                        size_hint: 1, None
-                        height: 2
-                        md_bg_color: app.theme_cls.bg_dark
-
-                MDBoxLayout:
-                    orientation: 'horizontal'
-                    size_hint: 1, None
-                    height: 75
-                    padding: 15, 15, 35, 15
-                    spacing: 30
-                    md_bg_color: app.theme_cls.bg_light
-
-                    MDIcon:
-                        id: logging_icon
-                        icon: 'note-text'
-                        size_hint: 1, 1
-                        size_hint_max_x: self.size[1]
-                        pos_hint: {'center_y': 0.5}
-
-                    MDLabel:
-                        text: "Enable or Disable logging"
-                        size_hint: 1, 1
-                        pos_hint: {'center_y': 0.5}
-
-                    MDBoxLayout:
-                        orientation: 'horizontal'
-                        adaptive_width: True
-                        height: 40
-
-                        MDLabel:
-                            id: logging_switch_text
-                            text: "Off"
-                            size_hint: None, 1
-                            halign: 'center'
-                            width: 75
-
-                        TooltipSwitchSettings:
-                            id: logging_switch
-                            tooltip_text: "Logging can be useful for debugging purposes"
-                            tooltip_bg_color: app.theme_cls.bg_dark
-                            tooltip_text_color: app.theme_cls.opposite_bg_dark
-                            pos_hint: {'center_y': 0.5}
-                            on_active: root.change_logging(self, self.active, False)
-
     MDFloatLayout:
         size_hint: 1, 1
 
