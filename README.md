@@ -50,6 +50,12 @@ Now you have added a new password to your account.
 2. Click the filter dropdown button and select a filter that you want to be deleted
 3. Click the button called `Remove Filter` to remove the filter *Note: A removed filter can't be recovered and every passord in the filter that is removed will be deleted!*
 
+## What is coming
+- Changes to how you add and manage passwords
+- More customization for the app to match your preferences
+- Password generator
+- Message encrypting
+
 ## Versions
 
 ### v1.0.0
