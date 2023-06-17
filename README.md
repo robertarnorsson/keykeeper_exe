@@ -30,7 +30,7 @@ Now your new account is made!
 
 ### How to add a new password
 1. When logged in and at the main screen click the `Add` button at the top
-![Add button position](https://github.com/RobertArnosson/keykeeper_exe/blob/v1.1.0/assets/keykeeper_add_button.png)
+![Add button position](https://github.com/RobertArnosson/keykeeper_exe/blob/v1.1.0/assets/keykeeper_add_password_button.png)
 2. Enter a title that shortly describes what is being saved. *Example: If you are saving a Google account the title can be `Google`*
 3. Enter the username and password of what you want to save. *Example: username could be `jacksmith@gmail.com` and the password could be `S3cuRep4$$W0rdS950`*
 4. Choose an icon with the arrow keys og click the icon if you wish to disable icons for that saved password.
@@ -49,7 +49,7 @@ Now you have added a new password to your account.
 **How to remove**
 1. When logged in and at the main screen click the burger menu in the bottom right and then click the top butten called `New Filter`
 2. Click the filter dropdown button and select a filter that you want to be deleted
-3. Click the button called `Remove Filter` to remove the filter *Note: A removed filter can't be recovered and every passord in the filter that is removed will be deleted!*
+3. Click the button called `Remove Filter` to remove the filter *Note: A removed filter can't be recovered and every passord in the filter will be deleted!*
 
 ## What is coming
 - Changes to how you add and manage passwords
