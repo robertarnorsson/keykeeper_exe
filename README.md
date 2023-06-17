@@ -30,7 +30,7 @@ Now your new account is made!
 
 ### How to add a new password
 1. When logged in and at the main screen click the `Add` button at the top
-![Add button position](https://github.com/RobertArnosson/keykeeper_exe/blob/v1.1.0/assets/keykeeper_add_password_button.png)
+![Add button position](https://github.com/RobertArnosson/keykeeper_exe/blob/main/assets/keykeeper_add_password_button.png)
 2. Enter a title that shortly describes what is being saved. *Example: If you are saving a Google account the title can be `Google`*
 3. Enter the username and password of what you want to save. *Example: username could be `jacksmith@gmail.com` and the password could be `S3cuRep4$$W0rdS950`*
 4. Choose an icon with the arrow keys og click the icon if you wish to disable icons for that saved password.
