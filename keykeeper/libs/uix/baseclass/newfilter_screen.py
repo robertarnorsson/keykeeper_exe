@@ -101,7 +101,7 @@ class NewFilterScreen(Screen):
         self.ids['filter_container'].ids['filter_button'].text = (text_item.split(".")[0]).capitalize()
         Session.FILTER = (text_item.split(".")[0]).lower()
         
-    def cycle_icon(self, dir):
+    """def cycle_icon(self, dir):
         if self.icon_disabled:
             return
         button = self.ids['icon_select']
@@ -129,11 +129,11 @@ class NewFilterScreen(Screen):
             self.icon_disabled = False
         else:
             button.icon = self.icon_disabled_icon
-            self.icon_disabled = True
+            self.icon_disabled = True"""
 
     def save_new_filter(self):
         filter_name = self.ids['filter_text'].text
-        icon = self.pw_icon if not self.icon_disabled else ''
+        #icon = self.pw_icon if not self.icon_disabled else ''
 
         self.filter_list = os.listdir(f'{PROJECT_DIR}\\database\\{Session.USER_UUID}\\data')
         filter_list = []

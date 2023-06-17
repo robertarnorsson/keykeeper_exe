@@ -14,11 +14,6 @@
         "object": "MainScreen()",
         "kv": "libs/uix/kv/main_screen.kv"
     },
-    "newpassword": {
-        "import": "from newpass_screen import NewPassScreen",
-        "object": "NewPassScreen()",
-        "kv": "libs/uix/kv/newpass_screen.kv"
-    },
     "newfilter": {
         "import": "from newfilter_screen import NewFilterScreen",
         "object": "NewFilterScreen()",
@@ -30,8 +25,8 @@
         "kv": "libs/uix/kv/account_screen.kv"
     },
     "settings": {
-        "import": "from libs.uix.baseclass.settings_screen import SettingsScreen",
+        "import": "from settings_screen import SettingsScreen",
         "object": "SettingsScreen()",
-        "kv": "libs/settings_screen.kv"
+        "kv": "libs/uix/kv/settings_screen.kv"
     }
 }

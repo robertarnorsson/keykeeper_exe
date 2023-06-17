@@ -54,6 +54,10 @@ def get_keyring(service_name: str, username: str):
     return keyring.get_password(service_name, username)
 
 def delete_keyring(service_name: str, username: str):
+    if not Session.USER_UUID:
+        if keyring.get_password(service_name, 'Keykeeper - '):
+            keyring.delete_password(service_name, 'Keykeeper - ')
+        return
     try:
         keyring.delete_password(service_name, username)
     except:

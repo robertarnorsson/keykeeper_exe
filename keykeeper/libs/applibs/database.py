@@ -81,7 +81,10 @@ def retrieve_user_by_name(name):
         ''', (name,))
         users = cursor.fetchall()
         conn.close()
-        return users[0]
+        if users:
+            return users[0]
+        else:
+            return []
     except:
         conn.close()
         return []

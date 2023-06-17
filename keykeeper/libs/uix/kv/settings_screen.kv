@@ -156,20 +156,21 @@
                     md_bg_color: app.theme_cls.bg_light
 
                     MDIcon:
-                        icon: 'key-chain-variant'
+                        id: primary_hue_icon
+                        icon: 'eyedropper-variant'
                         size_hint: 1, 1
                         size_hint_max_x: self.size[1]
                         pos_hint: {'center_y': 0.5}
 
                     MDLabel:
-                        text: "Change encryption security (Lower level = faster encryption + less security)"
-                        size_hint_y: 1
+                        text: "Change the primary color hue"
+                        size_hint: 1, 1
                         pos_hint: {'center_y': 0.5}
 
                     MDBoxLayout:
                         orientation: 'horizontal'
                         size_hint: 1, None
-                        size_hint_max_x: 500
+                        size_hint_max_x: 400
                         height: 40
 
                         MDLabel:
@@ -177,21 +178,20 @@
                             text: "1"
                             size_hint: None, 1
                             halign: 'center'
-                            width: 200
+                            width: 100
 
-                        TooltipSliderSettings:
-                            id: enc_lvl_slider
-                            tooltip_text: "Level 5 is the default"
-                            tooltip_bg_color: app.theme_cls.bg_dark
-                            tooltip_text_color: 1, 1, 1, 0.8
+                        MDSlider:
+                            id: color_hue_slider
+                            track_color_disabled: app.theme_cls.bg_light
+                            thumb_color_disabled: app.theme_cls.bg_dark
                             padding: 0
-                            min: 1
-                            max: 10
-                            step: 1
+                            min: 100
+                            max: 900
+                            step: 100
                             show_off: False
                             hint: False
                             pos_hint: {'center_y': 0.5}
-                            on_touch_move: root.change_encryption_level(False)
+                            on_touch_move: root.update_hue(False)
 
     MDFloatLayout:
         size_hint: 1, 1
@@ -210,6 +210,7 @@
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                     icon: 'content-save'
                     icon_color: app.theme_cls.bg_normal
+                    md_bg_color: app.theme_cls.primary_color
                     elevation: 0
                     on_release: root.apply_settings()
 
@@ -217,5 +218,6 @@
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                     icon: 'arrow-right'
                     icon_color: app.theme_cls.bg_normal
+                    md_bg_color: app.theme_cls.primary_color
                     elevation: 0
                     on_release: root.check_changes()

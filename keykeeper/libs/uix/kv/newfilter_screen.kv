@@ -89,16 +89,16 @@
                         spacing: 20
                         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
 
-                        TooltipMDIconButtonNewPass:
-                            id: icon_select
-                            icon: 'key-variant'
-                            tooltip_text: "Icons is not fully implemented yet for filters,\nbut will be used when implemented in the future.\n--- --- --- --- --- --- --- !!! --- --- --- --- --- --- ---\nUse the arrow keys to cycle the icons.\nClick the icon to disable/enable icons."
-                            tooltip_bg_color: app.theme_cls.bg_dark
-                            tooltip_text_color: 1, 1, 1, 0.8
-                            size_hint: 1, 1
-                            size_hint_max_x: self.parent.size[1]
-                            on_release:
-                                root.disable_icon()
+                        # TooltipMDIconButtonNewPass:
+                        #     id: icon_select
+                        #     icon: 'key-variant'
+                        #     tooltip_text: "Icons is not fully implemented yet for filters,\nbut will be used when implemented in the future.\n--- --- --- --- --- --- --- !!! --- --- --- --- --- --- ---\nUse the arrow keys to cycle the icons.\nClick the icon to disable/enable icons."
+                        #     tooltip_bg_color: app.theme_cls.bg_dark
+                        #     tooltip_text_color: 1, 1, 1, 0.8
+                        #     size_hint: 1, 1
+                        #     size_hint_max_x: self.parent.size[1]
+                        #     on_release:
+                        #         root.disable_icon()
 
                         FilterButton:
                             id: filter_container
@@ -145,10 +145,12 @@
 
     MDFloatLayout:
         size_hint: 1, 1
+
         MDAnchorLayout:
             anchor_x: 'right'
             anchor_y: 'bottom'
             padding: 50
+
             MDFloatingActionButton:
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                 icon: 'arrow-right'

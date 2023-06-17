@@ -1,9 +1,10 @@
 from kivy.uix.screenmanager import Screen
 from kivymd.uix.relativelayout import MDRelativeLayout
 from kivymd.uix.textfield.textfield import MDTextField
+from kivymd.app import MDApp
 from kivy.clock import Clock
 from kivy.core.window import Window
-from kivy.properties import StringProperty
+from kivy.properties import StringProperty, ColorProperty
 
 import re
 from concurrent.futures import ThreadPoolExecutor
@@ -11,7 +12,7 @@ from concurrent.futures import ThreadPoolExecutor
 from hash import verify_password
 from encryption import Security
 from utils import set_keyring, encode_b64
-from database import retrieve_user_by_name
+from database import retrieve_user_by_name, make_users_table
 from constants import SYS
 from session import Session
         
@@ -32,23 +33,25 @@ class PasswordTextField(MDRelativeLayout):
     hint_text = StringProperty()
 
 class LoginScreen(Screen):
-
     def __init__(self):
         super().__init__()
 
         Window.bind(on_keyboard=self._handle_keyboard)
 
         self.is_loggin_in = False
+
+        self.app = MDApp.get_running_app()
     
     def _handle_keyboard(self, instance, key, *args):
         if self.manager.current == 'login':
             if key == 13:
                 self.start_check_login()
-                
-    def on_pre_enter(self, *args):
-        self.parent.app.theme_cls.theme_style = "Dark"
-        self.parent.app.theme_cls.primary_palette = "Red"
-        return super().on_pre_enter(*args)
+
+    def on_enter(self, *args):
+        self.app.theme_cls.theme_style = 'Dark'
+        self.app.theme_cls.primary_palette = 'Red'
+        self.app.theme_cls.primary_hue = '500'
+        return super().on_enter(*args)
     
     def on_pre_leave(self, *args):
         self.ids['name'].text = ""
@@ -98,7 +101,7 @@ class LoginScreen(Screen):
         user_sltup = user[3]
         user_pepup = user[4]
 
-        sys_pw = str(password+SYS["hostname"]+SYS["processor"]).replace(" ", "")
+        sys_pw = str(password+SYS['hostname']+SYS['processor']).replace(" ", "")
 
         try:
             dec_hsh_pw = ENC.decrypt(user_password, str(password[:int(len(password)/1.32)]+((SYS['hostname']).lower())[int(len(SYS['hostname'])/2.63):]+(password[:int(len(password)/2.75)]).title()+str(((password[int(len(password)/1.55):]).upper()).title())+password[:int(len(password)/3.97)]+(SYS['hostname'])[:int(len(SYS['hostname'])/2.86)]))

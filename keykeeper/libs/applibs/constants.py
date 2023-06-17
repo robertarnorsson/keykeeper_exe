@@ -20,12 +20,13 @@ BASE_SETTINGS = {
     },
     "color": {
         "theme": "Dark",
-        "primary": "Red"
+        "primary": "Red",
+        "hue": "500"
     },
     "encryption": {
         "level": 5
     },
-    "logger": {
-        "disabled": False
+    "session": {
+        "filter": ""
     }
 }

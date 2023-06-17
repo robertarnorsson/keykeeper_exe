@@ -5,7 +5,7 @@ from kivy.lang import Builder
 from kivy.properties import ListProperty
 from kivy.uix.screenmanager import ScreenManager
 
-from libs.applibs.utils import abs_path, logout
+from utils import abs_path, logout
 
 class Root(ScreenManager):
 

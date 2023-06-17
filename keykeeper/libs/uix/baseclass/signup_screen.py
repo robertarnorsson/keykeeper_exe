@@ -3,7 +3,8 @@ from kivymd.uix.relativelayout import MDRelativeLayout
 from kivymd.uix.textfield.textfield import MDTextField
 from kivy.core.window import Window
 from kivy.clock import Clock
-from kivy.properties import StringProperty, NumericProperty
+from kivymd.app import MDApp
+from kivy.properties import StringProperty
 
 import re
 import os
@@ -39,12 +40,20 @@ class SignupScreen(Screen):
 
         Window.bind(on_keyboard=self._handle_keyboard)
 
+        self.app = MDApp.get_running_app()
+
         self.is_making = False
     
     def _handle_keyboard(self, instance, key, *args):
         if self.manager.current == 'signup':
             if key == 13:
                 self.start_make_user()
+    
+    def on_enter(self, *args):
+        self.app.theme_cls.theme_style = "Dark"
+        self.app.theme_cls.primary_palette = "Red"
+        self.app.theme_cls.primary_hue = "500"
+        return super().on_enter(*args)
     
     def on_pre_leave(self, *args):
         self.ids['name'].text = ""
@@ -114,6 +123,8 @@ class SignupScreen(Screen):
         make_users_table()
 
         for bfilter in BASE_FILTERS:
+            if bfilter == "":
+                continue
             create_iuser_database(user_uuid, bfilter)
 
         save_user('users', user_uuid, name, enc_hsh_pw, enc_sltp, enc_pepp)
