@@ -25,7 +25,7 @@ How to get to start using the Key Keeper app.
 ### How to create a new account 
 1. Double click the `keykeeper.exe` file in the `keykeeper` folder
 2. When the program opens click the button in the bottom right to create a new account.
-![Add user button position](https://github.com/RobertArnosson/keykeeper_exe/blob/main/assets/keykeeper_add_new_user_button.png)
+![Add user button position](https://github.com/RobertArnosson/keykeeper_exe/blob/main/assets/keykeeper_add_user_button.png)
 3. Enter a name that recognizes you *Example: `Jack` or `JackAccount`*
 4. Enter a strong password that has lower and upper case letters, numbers and symbols. Recommended length is **14-16** characters! **Do NOT share this passord with anyone or save it in the app!**
 5. When the account has been created just log into your newly created account.
@@ -46,7 +46,7 @@ Now you have added a new password to your account.
 
 **How to add**
 1. When logged in and at the main screen click the plus icon beside the filter dropdown button
-![Add button position](https://github.com/RobertArnosson/keykeeper_exe/blob/main/assets/keykeeper_ad_filter_button.png)
+![Add button position](https://github.com/RobertArnosson/keykeeper_exe/blob/main/assets/keykeeper_add_filter_button.png)
 2. Enter the name of your new filter. Example: `Google Mails` Note: Filters has a max length of 12 characters
 3. Click the button called `Save Filter` to save the filter
 
