@@ -51,7 +51,7 @@ Now you have added a new password to your account.
 3. Click the button called `Save Filter` to save the filter
 
 **How to remove**
-1. When logged in and at the main screen click the filter dropdown button and select a filter that you want to be deleted *Note: You can use the `Remove Filter` button too*
+1. When logged in and at the main screen click the filter dropdown button and select a filter that you want to be deleted
 ![Add button position](https://github.com/RobertArnosson/keykeeper_exe/blob/main/assets/keykeeper_remove_filter_button.png)
 2. Click the minus icon beside the filter dropdown button *Note: A removed filter can't be recovered and every passord in the filter will be deleted!*
 
