@@ -3,8 +3,9 @@ from kivymd.uix.relativelayout import MDRelativeLayout
 from kivymd.uix.textfield.textfield import MDTextField
 from kivy.core.window import Window
 from kivy.clock import Clock
+from kivy.metrics import dp
 from kivymd.app import MDApp
-from kivy.properties import StringProperty
+from kivy.properties import StringProperty, ColorProperty
 
 import re
 import os
@@ -15,9 +16,9 @@ from encryption import Security
 from get_sys import getSystemInfo
 from utils import make_uuid, replace_settings
 from database import make_users_table, create_iuser_database, save_user, retrieve_users
-from constants import PROJECT_DIR, BASE_SETTINGS, BASE_FILTERS
+from constants import USERS_PATH, BASE_SETTINGS, BASE_FILTERS
         
-class CredInputP(MDTextField):
+class CredInputPS(MDTextField):
     def insert_text(self, substring, from_undo=False):
         password_valid = r"^[A-Za-z\d@$!%*#?&]$"
         s = substring
@@ -29,7 +30,7 @@ class CredInputP(MDTextField):
             s = ""
         return super().insert_text(s, from_undo=from_undo)
     
-class PasswordTextField(MDRelativeLayout):
+class PasswordTextFieldS(MDRelativeLayout):
     text = StringProperty()
     hint_text = StringProperty()
 
@@ -57,7 +58,7 @@ class SignupScreen(Screen):
     
     def on_pre_leave(self, *args):
         self.ids['name'].text = ""
-        self.ids['password'].ids['text_field'].text = ""
+        self.ids['password'].ids['text_field_signup'].text = ""
         return super().on_pre_leave(*args)
 
     def start_make_user(self):
@@ -79,11 +80,11 @@ class SignupScreen(Screen):
         if valid:
             self.goto_screen('login', 'right')
         else:
-            print("No input given.")
-
+            print("User not made!")
+    
     def make_user(self):
         name = self.ids['name'].text
-        password = self.ids['password'].ids['text_field'].text
+        password = self.ids['password'].ids['text_field_signup'].text
 
         users = retrieve_users()
         users_name = []
@@ -94,14 +95,18 @@ class SignupScreen(Screen):
             print("Name already taken!")
             return False
 
-        if password == "":
+        if name == "" or password == "":
             print("Some input is empty")
+            return False
+
+        if len(password) < 14:
+            print("Password is too short")
             return False
 
         user_uuid = str(make_uuid())
 
-        os.mkdir(f'{PROJECT_DIR}\\database\\{user_uuid}')
-        os.mkdir(f'{PROJECT_DIR}\\database\\{user_uuid}\\data')
+        os.mkdir(f'{USERS_PATH}\\{user_uuid}')
+        os.mkdir(f'{USERS_PATH}\\{user_uuid}\\data')
 
         replace_settings(user_uuid, BASE_SETTINGS)
 
@@ -123,9 +128,8 @@ class SignupScreen(Screen):
         make_users_table()
 
         for bfilter in BASE_FILTERS:
-            if bfilter == "":
-                continue
-            create_iuser_database(user_uuid, bfilter)
+            if bfilter != "":
+                create_iuser_database(user_uuid, bfilter)
 
         save_user('users', user_uuid, name, enc_hsh_pw, enc_sltp, enc_pepp)
 

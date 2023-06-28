@@ -11,7 +11,7 @@ import re
 
 from session import Session
 from database import create_iuser_database
-from constants import PROJECT_DIR
+from constants import USERS_PATH
 
 class FilterButton(MDRelativeLayout):
     text = StringProperty()
@@ -48,7 +48,7 @@ class NewFilterScreen(Screen):
             'school'
         ]
 
-        self.filter_list = os.listdir(f'{PROJECT_DIR}\\database\\{Session.USER_UUID}\\data')
+        self.filter_list = os.listdir(f'{USERS_PATH}\\{Session.USER_UUID}\\data')
 
         self.menu_items_filter = [
             {   
@@ -78,7 +78,7 @@ class NewFilterScreen(Screen):
         return super().on_pre_leave(*args)
 
     def update_filter_menu(self):
-        self.filter_list = os.listdir(f'{PROJECT_DIR}\\database\\{Session.USER_UUID}\\data')
+        self.filter_list = os.listdir(f'{USERS_PATH}\\{Session.USER_UUID}\\data')
 
         self.menu_items_filter = [
             {
@@ -135,7 +135,7 @@ class NewFilterScreen(Screen):
         filter_name = self.ids['filter_text'].text
         #icon = self.pw_icon if not self.icon_disabled else ''
 
-        self.filter_list = os.listdir(f'{PROJECT_DIR}\\database\\{Session.USER_UUID}\\data')
+        self.filter_list = os.listdir(f'{USERS_PATH}\\{Session.USER_UUID}\\data')
         filter_list = []
 
         for _filter in self.filter_list:
@@ -160,10 +160,10 @@ class NewFilterScreen(Screen):
         self.ids['filter_text'].text = ""
     
     def remove_filter(self):
-        self.filter_list_len = len(os.listdir(f'{PROJECT_DIR}\\database\\{Session.USER_UUID}\\data'))
+        self.filter_list_len = len(os.listdir(f'{USERS_PATH}\\{Session.USER_UUID}\\data'))
         
         if self.filter_list_len > 1:
-            os.remove(f'{PROJECT_DIR}\\database\\{Session.USER_UUID}\\data\\{Session.FILTER}.db')
+            os.remove(f'{USERS_PATH}\\{Session.USER_UUID}\\data\\{Session.FILTER}.db')
             self.update_filter_menu()
         else:
             print("One filter is required")

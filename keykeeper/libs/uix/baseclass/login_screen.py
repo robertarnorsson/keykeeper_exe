@@ -4,7 +4,7 @@ from kivymd.uix.textfield.textfield import MDTextField
 from kivymd.app import MDApp
 from kivy.clock import Clock
 from kivy.core.window import Window
-from kivy.properties import StringProperty, ColorProperty
+from kivy.properties import StringProperty
 
 import re
 from concurrent.futures import ThreadPoolExecutor
@@ -16,7 +16,7 @@ from database import retrieve_user_by_name, make_users_table
 from constants import SYS
 from session import Session
         
-class CredInputP(MDTextField):
+class CredInputPL(MDTextField):
     def insert_text(self, substring, from_undo=False):
         password_valid = r'^[A-Za-z\d@$!%*#?&]$'
         s = substring
@@ -28,7 +28,7 @@ class CredInputP(MDTextField):
             s = ""
         return super().insert_text(s, from_undo=from_undo)
     
-class PasswordTextField(MDRelativeLayout):
+class PasswordTextFieldL(MDRelativeLayout):
     text = StringProperty()
     hint_text = StringProperty()
 

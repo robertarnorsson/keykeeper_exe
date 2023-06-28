@@ -1,0 +1,35 @@
+<AccountScreen>
+    MDGridLayout:
+        cols: 1
+        size: root.width, root.height
+
+        MDGridLayout:
+            cols: 1
+            size_hint: 1, 1
+
+            MDLabel:
+                text: "This page is under construction! Press the Esc key to go back"
+                font_style: 'H5'
+                size_hint: 1, 1
+                valign: 'center'
+                halign: 'center'
+
+    MDFloatLayout:
+        size_hint: 1, 1
+
+        MDAnchorLayout:
+            anchor_x: 'right'
+            anchor_y: 'bottom'
+            padding: 50
+
+            MDFillRoundFlatIconButton:
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                text: "Delete Account"
+                theme_text_color: "Custom"
+                text_color: app.theme_cls.bg_normal
+                icon: 'delete-alert'
+                theme_icon_color: "Custom"
+                icon_color: app.theme_cls.bg_normal
+                md_bg_color: "red"
+                ripple_scale: 0
+                on_release: root.start_delete_account()

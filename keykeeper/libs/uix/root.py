@@ -16,7 +16,7 @@ class Root(ScreenManager):
         super().__init__()
         Window.bind(on_keyboard=self._handle_keyboard)
         # getting screens data from screens.json
-        with open(abs_path("libs/screens.json")) as f:
+        with open(abs_path("libs\\screens.json")) as f:
             self.screens_data = json.load(f)
 
     def set_current(self, screen_name, side="left", _from_goback=False):

@@ -1,19 +1,22 @@
-<PasswordTextField>:
+<PasswordTextFieldL>:
     size_hint_y: None
     height: text_field.height
 
-    CredInputP:
+    CredInputPL:
         id: text_field
-        size_hint_x: 1
-        hint_text: root.hint_text
+        icon_left: 'key-variant'
+        theme_icon_color: "Custom"
+        icon_left_color: self.theme_cls.primary_color
         multiline: False
         allow_copy: False
         write_tab: False
-        text: root.text
         password: True
-        icon_left: "key-variant"
         password_mask: "•"
+        hint_text: "Password"
+        size_hint_x: 1
         font_style: 'Subtitle1'
+        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+        
 
     MDIconButton:
         icon: "eye-off"
@@ -32,39 +35,32 @@
         cols: 1
         size: root.width, root.height
 
-        MDGridLayout:
-            cols: 1
-            size_hint: 1, 0.25
-            size_hint_max_y: 200
-
-            MDLabel:
-                text: "Login to your account"
-                font_style: 'H3'
-                halign: 'center'
-
         MDAnchorLayout:
             size_hint: 1, 1
             anchor_x: 'center'
             anchor_y: 'center'
 
-            MDBoxLayout:
-                orientation: "vertical"
-                padding: 20
-                size_hint: 0.35, None
+            MDCard:
+                padding: 4
+                size_hint: None, None
+                width: 375
                 height: self.minimum_height
-                size_hint_max_x: 550
-                pos_hint: {"center_x": .5, "center_y": .5}
-                elevation: 4
-                shadow_radius: 6
-                shadow_offset: 0, 2
+                md_bg_color: [app.theme_cls.bg_normal[0] + 0.01, app.theme_cls.bg_normal[1] + 0.01, app.theme_cls.bg_normal[2] + 0.01, 1]
 
                 BoxLayout:
                     orientation: 'vertical'
                     size_hint: 1, None
                     height: self.minimum_height
-                    spacing: dp(20)
-                    padding: dp(20)
+                    spacing: dp(30)
+                    padding: dp(30)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+                    MDLabel:
+                        text: "Login"
+                        font_style: 'H4'
+                        halign: 'center'
+                        size_hint: 1, None
+                        height: 70
 
                     MDTextField:
                         id: name
@@ -78,19 +74,14 @@
                         font_style: 'Subtitle1'
                         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
 
-                    PasswordTextField:
+                    PasswordTextFieldL:
                         id: password
                         hint_text: "Password"
                         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
 
                     MDBoxLayout:
                         size_hint: 1, None
-                        height: 2
-
-                        MDBoxLayout:
-                            size_hint: 1, None
-                            height: 2
-                            md_bg_color: app.theme_cls.bg_dark
+                        height: 10
 
                     MDRectangleFlatButton:
                         id: loginbtn

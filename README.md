@@ -27,7 +27,7 @@ How to get to start using the Key Keeper app.
 2. When the program opens click the button in the bottom right to create a new account.
 ![Add user button position](https://github.com/RobertArnosson/keykeeper_exe/blob/main/assets/keykeeper_add_user_button.png)
 3. Enter a name that recognizes you *Example: `Jack` or `JackAccount`*
-4. Enter a strong password that has lower and upper case letters, numbers and symbols. Recommended length is **14-16** characters! **Do NOT share this passord with anyone or save it in the app!**
+4. Enter a strong password that has lower and upper case letters, numbers and symbols. Recommended length is **`14-16`** characters! **Do NOT share this passord with anyone or save it in the app!**
 5. When the account has been created just log into your newly created account.
 Now your new account is made!
 
@@ -51,14 +51,16 @@ Now you have added a new password to your account.
 3. Click the button called `Save Filter` to save the filter
 
 **How to remove**
-1. When logged in and at the main screen click the same plus icon as if you were going to add a filter
-2. Click the filter dropdown button and select a filter that you want to be deleted
-3. Click the button called `Remove Filter` to remove the filter *Note: A removed filter can't be recovered and every passord in the filter will be deleted!*
+1. When logged in and at the main screen click the filter dropdown button and select a filter that you want to be deleted *Note: You can use the `Remove Filter` button too*
+![Add button position](https://github.com/RobertArnosson/keykeeper_exe/blob/main/assets/keykeeper_remove_filter_button.png)
+2. Click the minus icon beside the filter dropdown button *Note: A removed filter can't be recovered and every passord in the filter will be deleted!*
 
 ## What is coming
 - More customization for the app to match your preferences
 - Password generator
 - Message encrypting
+- Identety generator
+- Identety saving
 
 ## Versions
 
@@ -66,11 +68,18 @@ Now you have added a new password to your account.
 - First release of the application!
 
 ### v1.0.1
-- Removed keybind "`n`" for adding new user because it interfered when writing name or password
+- Removed keybind `n` for adding new user because it interfered when writing name or password
 - Edited file structure
 
 ### v1.1.0
 - Remake of the main screen
 - Moved the viewing and adding of passwords to the main screen
 - Added a hue slider to the settings for more customization
+- Fixed bugs
+
+### v1.1.1
+- Made UI more clean and easy to use
+- Moved the save folder to "`C:\KeyKeeperData`" *Note: The folder is created when you open the app*
+- Added button for deleting your user
+- Added minimum **`14`** character length to the master password *Recommended `14-16`*
 - Fixed bugs

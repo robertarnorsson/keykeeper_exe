@@ -1,14 +1,13 @@
-import os
 import sqlite3
 
-from constants import PROJECT_DIR
+from constants import USERS_PATH
 
 def connect_db(db):
-    conn = sqlite3.connect(os.path.join(PROJECT_DIR, f'./database/{db}.db'))
+    conn = sqlite3.connect(f'{USERS_PATH}\\{db}.db')
     return conn
 
 def connect_iuser_db(user_uuid, db):
-    conn = sqlite3.connect(os.path.join(PROJECT_DIR, f'./database/{user_uuid}/data/{db}.db'))
+    conn = sqlite3.connect(f'{USERS_PATH}\\{user_uuid}\\data\\{db}.db')
     return conn
 
 def make_users_table():
@@ -163,6 +162,17 @@ def delete_password_by_title(database_name, user_uuid, title):
     cursor.execute('''
         DELETE FROM users WHERE title = ?
     ''', (title,))
+
+    conn.commit()
+    conn.close()
+
+def delete_user_by_uuid(user_uuid):
+    conn = connect_db('users')
+    cursor = conn.cursor()
+
+    cursor.execute('''
+        DELETE FROM users WHERE user_uuid = ?
+    ''', (user_uuid,))
 
     conn.commit()
     conn.close()

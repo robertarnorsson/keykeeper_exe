@@ -1,7 +1,40 @@
 <TooltipMDIconButtonMain@MDIconButton+MDTooltip>
 <TooltipSliderMain@MDSlider+MDTooltip>
 
-<PasswordTextFieldM>:
+<IconSelector>
+    MDFloatLayout:
+        size_hint: 1, 1
+        md_bg_color: 0.2, 0.2, 0.2, 0.2
+    MDBoxLayout:
+        orientation: 'vertical'
+        spacing: dp(10)
+        padding: dp(20)
+
+        MDBoxLayout:
+            adaptive_height: True
+
+            MDIconButton:
+                icon: 'magnify'
+
+            MDTextField:
+                id: search_field
+                hint_text: 'Search icon'
+                on_text: root.set_list_md_icons(self.text, True)
+
+        RecycleView:
+            id: rv
+            key_viewclass: 'viewclass'
+            key_size: 'height'
+
+            RecycleBoxLayout:
+                padding: dp(10)
+                default_size: None, dp(48)
+                default_size_hint: 1, None
+                size_hint_y: None
+                height: self.minimum_height
+                orientation: 'vertical'
+
+<PasswordTextFieldM>
     size_hint_y: None
     height: text_field.height
 
@@ -121,7 +154,7 @@
                                 id: account_button_long
                                 text: "Account"
                                 size_hint: 1, 1
-                                font_size: self.size[1] * 0.35
+                                font_style: 'H6'
                                 halign: 'left'
                                 ripple_scale: 0
                                 on_release:
@@ -131,7 +164,7 @@
                                 icon: 'logout'
                                 tooltip_text: "Log out"
                                 tooltip_bg_color: app.theme_cls.bg_dark
-                                tooltip_text_color: 1, 1, 1, 0.8
+                                tooltip_text_color: app.theme_cls.opposite_bg_dark
                                 theme_icon_color: 'Custom'
                                 icon_color: app.theme_cls.primary_color
                                 on_release:
@@ -164,22 +197,37 @@
                             ripple_duration_in_slow: 0.75
                             ripple_duration_out: 0.1
 
-                        MDIconButton:
-                            icon: "plus"
-                            theme_icon_color: 'Custom'
-                            icon_color: app.theme_cls.primary_color
-                            pos_hint: {"center_x": .5, "center_y": .5}
-                            on_release: root.goto_screen('newfilter', 'right')
+                        MDBoxLayout:
+                            orientation: 'horizontal'
+                            size_hint_x: 0.2
+                            size_hint_min_x: 75
+                            spacing: 0
+
+                            MDIconButton:
+                                icon: "plus"
+                                size_hint: 0.5, 1
+                                theme_icon_color: 'Custom'
+                                icon_color: app.theme_cls.primary_color
+                                pos_hint: {"center_x": .5, "center_y": .5}
+                                on_release: root.goto_screen('newfilter', 'right')
+                            
+                            TooltipMDIconButtonMain:
+                                icon: "minus"
+                                tooltip_text: "Deletes selected filter!"
+                                tooltip_bg_color: app.theme_cls.bg_dark
+                                tooltip_text_color: app.theme_cls.opposite_bg_dark
+                                size_hint: 0.5, 1
+                                theme_icon_color: 'Custom'
+                                icon_color: app.theme_cls.primary_color
+                                pos_hint: {"center_x": .5, "center_y": .5}
+                                on_release: root.start_remove_filter()
 
                     MDBoxLayout:
                         size_hint: 1, 1
                         padding: 0, 10, 0, 15
 
-                        FadeScrollView:
+                        ScrollView:
                             id: scroll
-                            fade_height: self.height / 10
-                            fade_color: app.theme_cls.bg_normal
-                            edge_top: False
                             do_scroll_x: False
                             do_scroll_y: True
                             smooth_scroll_end: 12
@@ -232,14 +280,6 @@
                             spacing: dp(20)
                             padding: dp(20)
                             pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-
-                            MDLabel:
-                                id: segment_text
-                                text: "View Passwords"
-                                font_style: 'Subtitle1'
-                                halign: 'center'
-                                size_hint: 1, None
-                                height: 50
 
                             MDGridLayout:
                                 cols: 2
@@ -315,6 +355,7 @@
                                 orientation: 'horizontal'
                                 size_hint: 1, None
                                 height: 40
+                                spacing: 10
 
                                 MDLabel:
                                     id: slider_text
@@ -338,6 +379,7 @@
                                     hint: False
                                     pos_hint: {'center_y': 0.5}
                                     on_touch_move: root.update_slider(self.value)
+                                    on_active: root.update_slider(self.value)
 
                             MDBoxLayout:
                                 size_hint: 1, None

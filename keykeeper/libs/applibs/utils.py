@@ -4,7 +4,7 @@ import json
 import base64
 import keyring
 
-from constants import PROJECT_DIR
+from constants import PROJECT_DIR, USERS_PATH
 from session import Session
 
 
@@ -21,7 +21,7 @@ def logout():
     Session.FILTER = ""
 
 def get_settings(category, section):
-    with open(f'{PROJECT_DIR}\\database\\{Session.USER_UUID}\\settings.json', 'r') as file:
+    with open(f'{USERS_PATH}\\{Session.USER_UUID}\\settings.json', 'r') as file:
         settings_decode = base64.b64decode(file.read()).decode()
         settings = json.loads(settings_decode)
         
@@ -31,19 +31,19 @@ def get_settings(category, section):
     return None
 
 def update_settings(category, section, new_value):
-    with open(f'{PROJECT_DIR}\\database\\{Session.USER_UUID}\\settings.json', 'r') as file:
+    with open(f'{USERS_PATH}\\{Session.USER_UUID}\\settings.json', 'r') as file:
         settings_decode = base64.b64decode(file.read()).decode()
         settings = json.loads(settings_decode)
         
     if category in settings and section in settings[category]:
         settings[category][section] = new_value
         
-        with open(f'{PROJECT_DIR}\\database\\{Session.USER_UUID}\\settings.json', 'w') as file:
+        with open(f'{USERS_PATH}\\{Session.USER_UUID}\\settings.json', 'w') as file:
             file.write(base64.b64encode(json.dumps(settings).encode()).decode())
 
 def replace_settings(user_uuid, new_settings):
     new_settings['user']['uuid'] = user_uuid
-    with open(f'{PROJECT_DIR}\\database\\{user_uuid}\\settings.json', 'w') as file:
+    with open(f'{USERS_PATH}\\{user_uuid}\\settings.json', 'w') as file:
         settings_base64 = base64.b64encode(json.dumps(new_settings).encode()).decode()
         file.write(settings_base64)
 

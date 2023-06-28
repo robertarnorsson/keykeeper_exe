@@ -1,11 +1,12 @@
 from kivy.uix.screenmanager import Screen
-from kivy.uix.scrollview import ScrollView
+from kivymd.uix.dialog import MDDialog
+from kivymd.uix.button import MDFlatButton
 from kivymd.uix.relativelayout import MDRelativeLayout
 from kivymd.app import MDApp
 from kivymd.uix.menu import MDDropdownMenu
 from kivymd.uix.label import MDLabel
-from kivymd.effects.fadingedge.fadingedge import FadingEdgeEffect
-from kivy.clock import Clock
+from kivymd.uix.list import OneLineIconListItem
+from kivymd.icon_definitions import md_icons
 from kivy.metrics import dp
 from kivy.properties import StringProperty, NumericProperty, Property
 
@@ -13,14 +14,36 @@ import os
 from functools import partial
 
 from session import Session
-from constants import PROJECT_DIR
+from constants import PROJECT_DIR, USERS_PATH
 from database import retrieve_passwords, retrieve_password_by_title, save_password, delete_password_by_title, update_password_by_title
 from utils import logout, get_keyring, decode_b64, get_settings, update_settings
 from threads import ThreadedFunctionRunner
 from encryption import Security
 
-class FadeScrollView(FadingEdgeEffect, ScrollView):
-    pass
+class CustomOneLineIconListItem(OneLineIconListItem):
+    icon = StringProperty()
+
+class IconSelector(MDRelativeLayout):
+    def set_list_md_icons(self, text="", search=False):
+        '''Builds a list of icons for the screen MDIcons.'''
+
+        def add_icon_item(name_icon):
+            self.ids.rv.data.append(
+                {
+                    "viewclass": "CustomOneLineIconListItem",
+                    "icon": name_icon,
+                    "text": name_icon,
+                    "callback": lambda x: x,
+                }
+            )
+
+        self.ids.rv.data = []
+        for name_icon in md_icons.keys():
+            if search:
+                if text in name_icon:
+                    add_icon_item(name_icon)
+            else:
+                add_icon_item(name_icon)
 
 class PasswordButton(MDRelativeLayout):
     text = StringProperty()
@@ -44,11 +67,22 @@ class MainScreen(Screen):
         self.value = 5
         self.segment_type = 'view'
 
+        self.icon_main = "key-variant"
+        self.icon_disabled = False
+        self.icon_disabled_icon = 'cancel'
+        self.icon_disabled_icon_icon = ''
+        self.icon_list = [
+            'key-variant',
+            'home',
+            'briefcase',
+            'school'
+        ]
+
         self.segment_buttons = {"view": self.ids['view_button'], "add": self.ids['add_button']}
 
         self.app = MDApp.get_running_app()
         
-        filter_list = os.listdir(f'{PROJECT_DIR}\\database\\{Session.USER_UUID}\\data')
+        filter_list = os.listdir(f'{USERS_PATH}\\{Session.USER_UUID}\\data')
 
         first_filter = (filter_list[0].split(".")[0]).capitalize()
 
@@ -76,14 +110,23 @@ class MainScreen(Screen):
 
         self.ids['filter_container'].text = Session.FILTER.capitalize()
     
+    def _handle_keyboard(self, instance, key, *args):
+        if self.manager.current == 'main':
+            if key == 275 or key == 273:
+                self.cycle_icon('left')
+            if key == 276 or key == 274:
+                self.cycle_icon('right')
+    
     def on_pre_enter(self, *args):
         if not Session.USER_UUID:
             self.goto_screen('login', 'down')
-        if get_settings('session', 'filter'):
-            filter_list = os.listdir(f'{PROJECT_DIR}\\database\\{Session.USER_UUID}\\data')
+        if get_settings('session', 'filter') == "":
+            filter_list = os.listdir(f'{USERS_PATH}\\{Session.USER_UUID}\\data')
             first_filter = (filter_list[0].split(".")[0]).capitalize()
             update_settings('session', 'filter', first_filter)
         Session.FILTER = get_settings('session', 'filter')
+        print(f'Filter: {Session.FILTER}')
+        self.ids['account_button_long'].text = Session.NAME
         self.clear_text(True)
         self.update_slider(self.value)
         return super().on_pre_enter(*args)
@@ -92,10 +135,17 @@ class MainScreen(Screen):
         self.app.theme_cls.theme_style = get_settings('color', 'theme')
         self.app.theme_cls.primary_palette = get_settings('color', 'primary')
         self.app.theme_cls.primary_hue = get_settings('color', 'hue')
-        self.load_passwords()
         self.change_type('View')
+        self.load_passwords()
         self.update_filter_menu()
         return super().on_enter(*args)
+
+    def on_leave(self, *args):
+        scroll_container = self.ids['scroll_container']
+        scroll_container_children = self.ids['scroll_container'].children
+        for child in scroll_container_children:
+            scroll_container.remove_widget(child)
+        return super().on_leave(*args)
     
     def open_menu(self):
         self.menu.open()
@@ -112,7 +162,7 @@ class MainScreen(Screen):
         self.load_passwords()
     
     def update_filter_menu(self):
-        filter_list = os.listdir(f'{PROJECT_DIR}\\database\\{Session.USER_UUID}\\data')
+        filter_list = os.listdir(f'{USERS_PATH}\\{Session.USER_UUID}\\data')
 
         self.ids['filter_container'].ids['filter_button'].text = (filter_list[0].split(".")[0]).capitalize()
 
@@ -120,11 +170,47 @@ class MainScreen(Screen):
             {
                 "text": (i.split(".")[0]).capitalize(),
                 "viewclass": "OneLineListItem",
+                "height": dp(55),
                 "on_release": lambda x=i: self.menu_filter_callback(x),
             } for i in filter_list
         ]
 
         self.menu_filter.items = self.menu_items_filter
+    
+    def start_remove_filter(self):
+        self.filter_list_len = len(os.listdir(f'{USERS_PATH}\\{Session.USER_UUID}\\data'))
+        
+        if self.filter_list_len > 1:
+            self.show_dialog("Are you sure?", "Are you sure you want to delete this filter?\nThis action will remove any saved passwords in the filter.", [["Cancel", self.close_dialog], ["Delete", self.remove_filter]], False)
+        else:
+            print("One password is required!")
+            return
+    
+    def remove_filter(self, *args):
+        self.close_dialog()
+        try:
+            os.remove(f'{USERS_PATH}\\{Session.USER_UUID}\\data\\{Session.FILTER}.db')
+            filter_list = os.listdir(f'{USERS_PATH}\\{Session.USER_UUID}\\data')
+            Session.FILTER = (filter_list[0].split(".")[0]).capitalize()
+            update_settings('session', 'filter', Session.FILTER)
+        except:
+            print(f"Failed to delete filter! Try again! Filter: {Session.FILTER}.db")
+        self.update_filter_menu()
+        self.load_passwords()
+    
+    def show_dialog(self, title, text, buttons, dismiss_button):
+        all_buttons = []
+        if dismiss_button:
+            dismiss_btn = MDFlatButton(text="Close", on_release=self.close_dialog)
+            all_buttons.append(dismiss_btn)
+        for button in buttons:
+            new_button = MDFlatButton(text=button[0], on_release=button[1])
+            all_buttons.append(new_button)
+        self.dialog = MDDialog(title=title, text=text, size_hint=(0.7, None), size_hint_max_x=550, height=150, buttons=all_buttons)
+        self.dialog.open()
+    
+    def close_dialog(self, *args):
+        self.dialog.dismiss()
     
     def update_text(self, title, username, password):
         self.title = str(title)
@@ -164,9 +250,40 @@ class MainScreen(Screen):
         self.ids['save_button'].disabled = save_disable
         self.ids['delete_button'].disabled = delete_disable
     
+    def cycle_icon(self, dir):
+        if self.icon_disabled:
+            return
+        button = self.ids['icon_select']
+        total_len = len(self.icon_list)-1
+        index = self.icon_list.index(self.icon_main)
+        if dir == 'right':
+            if index < 0:
+                index = total_len+1
+            self.icon_main = self.icon_list[index-1]
+            button.icon = self.icon_main
+            return
+
+        if dir == 'left':
+            if index == total_len:
+                index = -1
+            self.icon_main = self.icon_list[index+1]
+            button.icon = self.icon_main
+            return
+
+    def disable_icon(self):
+        button = self.ids['icon_select']
+        if self.icon_disabled:
+            button.icon = self.icon_list[self.icon_list.index(self.icon_main)]
+            self.icon_disabled = False
+        else:
+            button.icon = self.icon_disabled_icon
+            self.icon_disabled = True
+    
+    def open_icon_select(self, caller):
+        pass
+    
     def change_type(self, button_text):
         self.clear_text(False)
-        segment_text = self.ids['segment_text']
         self.segment_type = button_text.lower()
         on_color = self.app.theme_cls.primary_color
         off_color = self.app.theme_cls.bg_normal
@@ -174,7 +291,6 @@ class MainScreen(Screen):
         active_button = self.segment_buttons[button_text.lower()]
         active_button.md_bg_color = on_color
         active_button.text_color = off_color
-        segment_text.text = f'{button_text} Passwords'
 
         for _button in self.segment_buttons:
             if _button == button_text.lower():
@@ -213,6 +329,8 @@ class MainScreen(Screen):
     
     def load_passwords(self):
         self.clear_text(True)
+        self.update_slider(5)
+        self.update_slider_text(5)
         passwords = retrieve_passwords((Session.FILTER).lower(), Session.USER_UUID)
         self.container = self.ids['scroll_container']
         self.container.clear_widgets()
@@ -228,7 +346,6 @@ class MainScreen(Screen):
     
     def show_password(self, title):
         self.title = title
-        print(self.title)
         if self.segment_type == 'add':
             self.change_type('View')
         info = retrieve_password_by_title(Session.FILTER, Session.USER_UUID, self.title)[0]
@@ -296,7 +413,6 @@ class MainScreen(Screen):
                     return ""
             
             def update_with_new_info(result):
-                print(result)
                 keep_result = result[0]
                 result.pop(0)
                 update_password_by_title(Session.FILTER, Session.USER_UUID, title, keep_result[0], result[0]['username'], result[0]['password'], "", new_lvl)
@@ -356,7 +472,6 @@ class MainScreen(Screen):
     def add_callback(self, result):
         keep_result = result[0]
         result.pop(0)
-        print(result)
         save_password(Session.FILTER, Session.USER_UUID, keep_result[0], result[0]['username'], result[0]['password'], "", keep_result[1])
         self.load_passwords()
     
